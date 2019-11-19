@@ -1,0 +1,46 @@
+body {
+    font-family: 'Henny Penny';
+    font-weight: x-large;
+}
+
+#form {
+    width: 50%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#generate {
+    display: block;
+    margin: 0 auto;
+    border: solid 2px;
+    border-radius: 10px;
+    font-size: 1em;
+    font-family: 'Henny Penny';
+    background-color: #fff;
+    color: black;
+    cursor: pointer;
+}
+
+#generate:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+.form-row>label {
+    font-size: 1.2em;
+}
+
+#time-div {
+    font-size: 1.5em;
+    margin: 10px 0;
+}
+
+input.start-values {
+    display: inline-block;
+    width: 50px;
+    margin: 5px 10px;
+    padding: 3px 6px;
+    border: solid 2px black;
+    font-family: 'Henny Penny';
+    font-weight: x-large;
+}
