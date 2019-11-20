@@ -24,6 +24,11 @@ const render = () => {
   generate.textContent = "generuj";
   generate.id = 'generate'
   form.appendChild(generate);
-
   document.body.appendChild(form)
+
+  const board = document.createElement('div')
+  board.id = 'board'
+  document.body.appendChild(board)
+
 };
+

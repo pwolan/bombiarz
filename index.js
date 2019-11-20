@@ -19,6 +19,7 @@ generate.addEventListener("click", () => {
     Game = new Saper()
     clearInputs()
   }
+  Game.render()
 
 });
 

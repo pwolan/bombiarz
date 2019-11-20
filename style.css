@@ -1,12 +1,12 @@
 body {
     font-family: 'Henny Penny';
     font-weight: x-large;
+    text-align: center;
 }
 
 #form {
     width: 50%;
     margin: 0 auto;
-    text-align: center;
 }
 
 #generate {
@@ -43,4 +43,19 @@ input.start-values {
     border: solid 2px black;
     font-family: 'Henny Penny';
     font-weight: x-large;
+}
+
+#board {
+    margin: 0 auto;
+    margin-top: 30px;
+    display: none;
+    border: 5px solid black;
+    width: fit-content;
+}
+
+.cell {
+    width: 20px;
+    height: 20px;
+    background-color: #ccc;
+    background-size: contain;
 }

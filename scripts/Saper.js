@@ -28,6 +28,42 @@ class Saper {
         this.fieldsArray = boardArray
         console.log(this);
     }
+    render() {
+        const {
+            width,
+            height
+        } = this
+        const board = document.getElementById('board')
+        board.style.gridTemplateColumns = `repeat(${width}, 20px)`
+        board.style.gridTemplateRows = `repeat(${height}, 20px)`
+        board.style.display = 'grid'
+        for (let i = 0; i < width; i++) {
+            for (let ii = 0; ii < height; ii++) {
+                const cell = document.createElement('div')
+                cell.classList.add('cell')
+                cell.id = `${i}-${ii}`
+                cell.style['background-image'] = ' url(./img/klepa.PNG)';
+                board.appendChild(cell)
+            }
+        }
+
+        const fieldsDOMList = document.querySelectorAll('.cell')
+        fieldsDOMList.forEach(cell => {
+            cell.addEventListener("click", (e) => {
+                let pos = this.getPosition(e.target)
+                let check = this.minesArray.findIndex(mine => {
+                    return mine.w === pos.w && mine.h === pos.h
+                })
+                if (check === -1) {
+                    console.log('nie bomba');
+                    this.handleField(e.target)
+                } else {
+                    console.log('bomba');
+                    this.showAllBombs()
+                }
+            })
+        })
+    }
     // timeCounting
     startTimer() {
         const timeDiv = document.querySelector('#time-div')
@@ -76,7 +112,63 @@ class Saper {
         console.log(minesArray);
         return minesArray
     }
+    showAllBombs() {
+        const {
+            minesArray
+        } = this
+        const cells = document.querySelectorAll('.cell')
+        cells.forEach(cell => {
+            let pos = this.getPosition(cell)
+            let check = this.minesArray.findIndex(mine => {
+                return mine.w === pos.w && mine.h === pos.h
+            })
+            if (check !== -1) {
+                cell.style.backgroundImage = 'url(./img/bomb.png)'
+            }
+        })
+    }
+    getPosition(el) {
+        const id = el.id
+        return {
+            w: parseInt(id[2]),
+            h: parseInt(id[0])
+        }
+    }
+    handleField(el) {
+        const pos = this.getPosition(el)
+        el.style.backgroundImage = 'url()'
+        //make list of adjacent fields
+        let posibleFields = []
+        for (let i = -1; i < 2; i++) {
+            for (let j = -1; j < 2; j++) {
+                if (pos.w + i >= 0 && pos.w + i <= this.width - 1 + i) {
+                    if (pos.h + j >= 0 && pos.h + j <= this.height - 1 + j) {
+                        posibleFields.push({
+                            w: pos.w + i,
+                            h: pos.h + j
+                        })
+                    }
+                }
+            }
+        }
+        let bombsAround = 0;
+        posibleFields.forEach((field) => {
+            this.minesArray.forEach(mine => {
+                if (mine.w === field.w && mine.h === field.h) {
+                    bombsAround++
+                }
+            })
+
+        })
+        el.textContent = bombsAround
+    }
     remove() {
+        //stop the timer
         clearInterval(this.timeCounting)
+        //empty board
+        const board = document.getElementById('board')
+        while (board.firstChild) {
+            board.removeChild(board.firstChild)
+        }
     }
 }
