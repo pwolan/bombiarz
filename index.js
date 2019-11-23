@@ -16,10 +16,52 @@ generate.addEventListener("click", () => {
     if (Game) {
       Game.remove()
     }
-    Game = new Saper()
+    let height = document.getElementById('height').value
+    height = parseInt(height)
+    let width = document.getElementById('width').value
+    width = parseInt(width)
+    let mines = document.getElementById('mines').value
+    minesCount = parseInt(mines)
+
+    Board = new Board(width, height, minesCount) // manage board
+    Saper = new Saper(Board.fieldsArray) // saper game actions
     clearInputs()
+    Board.cellsDOM.forEach(cell => {
+      cell.addEventListener("click", (e) => {
+        let guess = Board.getPosition(e.target.id)
+        let isBomb = Saper.checkIsBomb(guess)
+        if (isBomb) {
+          Board.showAllBombs()
+          Board.showClickedBomb(guess)
+          Board.cover()
+          Saper.remove()
+          // alert('looser')
+        } else {
+          let number = Saper.getFieldNumber(guess)
+          Board.showField(guess, number)
+          if (number == 0) {
+            const autoshow = (pos) => {
+              let adjFields = Saper.getAdjacentFields(pos)
+              adjFields.forEach(field => {
+                let num = Saper.getFieldNumber(field)
+                Board.showField(field, num)
+                if (num == 0) {
+                  return autoshow(field)
+                }
+              })
+            }
+            autoshow(guess)
+          }
+        }
+      })
+      cell.addEventListener('contextmenu', (e) => {
+        e.preventDefault()
+        Board.rightClick(e.target)
+      })
+    })
+    console.log(Board);
+    console.table(Board.fieldsArray)
   }
-  Game.render()
 
 });
 
