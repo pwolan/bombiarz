@@ -1,5 +1,4 @@
 render();
-let Game;
 
 const inputs = document.querySelectorAll(".start-values");
 inputs.forEach(input => {
@@ -11,20 +10,19 @@ inputs.forEach(input => {
 
 const generate = document.querySelector("button");
 generate.addEventListener("click", () => {
-  let canStart = checkAreInputsFull()
+  let canStart = checkAreInputsCorrect()
   if (canStart) {
-    if (Game) {
-      Game.remove()
-    }
-    let height = document.getElementById('height').value
-    height = parseInt(height)
-    let width = document.getElementById('width').value
-    width = parseInt(width)
-    let mines = document.getElementById('mines').value
-    minesCount = parseInt(mines)
+    // if (Game) {
+    //   Game.remove()
+    // }
 
-    Board = new Board(width, height, minesCount) // manage board
-    Saper = new Saper(Board.fieldsArray) // saper game actions
+    const {
+      width,
+      height,
+      mines
+    } = getFormValues()
+    Board = new BoardClass(width, height, mines) // manage board
+    Saper = new SaperClass(Board) // saper game actions
     clearInputs()
     Board.cellsDOM.forEach(cell => {
       cell.addEventListener("click", (e) => {
@@ -39,12 +37,16 @@ generate.addEventListener("click", () => {
         } else {
           let number = Saper.getFieldNumber(guess)
           Board.showField(guess, number)
+          Saper.checkWin()
           if (number == 0) {
             const autoshow = (pos) => {
               let adjFields = Saper.getAdjacentFields(pos)
               adjFields.forEach(field => {
                 let num = Saper.getFieldNumber(field)
-                Board.showField(field, num)
+                let x = Board.showField(field, num)
+                if (x) {
+                  Saper.checkWin()
+                }
                 if (num == 0) {
                   return autoshow(field)
                 }
@@ -56,7 +58,9 @@ generate.addEventListener("click", () => {
       })
       cell.addEventListener('contextmenu', (e) => {
         e.preventDefault()
-        Board.rightClick(e.target)
+        if (!e.target.classList.contains('showed')) {
+          Board.rightClick(e.target)
+        }
       })
     })
     console.log(Board);

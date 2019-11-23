@@ -1,13 +1,19 @@
-class Saper {
-    constructor(fieldsArray = []) {
-        this.fieldsArray = fieldsArray
+class SaperClass {
+    constructor(Board) {
+        this.fieldsArray = Board.fieldsArray
+        this.Board = Board
         this.init()
+        this.fieldsToWin
     }
     init() {
         //get numbers from inputs
         // this.Board = new Board()
         // this.fieldsArray = this.Board.fieldsArray
         // this.setListeners()
+        const {
+            Board
+        } = this
+        this.fieldsToWin = Board.width * Board.height - Board.minesCount
         this.startTimer()
         console.log(this);
     }
@@ -21,7 +27,7 @@ class Saper {
                 if (pos.h + i >= 0 && pos.h + i < this.fieldsArray.length) { //hgth
                     if (pos.w + j >= 0 && pos.w + j < this.fieldsArray[0].length) { //wdth
                         const el = document.getElementById(`${pos.h+i}-${pos.w+j}`)
-                        let isShowed = el.classList.contains('showed')
+                        let isShowed = el.classList.contains('showed') || (j == 0 && i == 0)
                         if (!isShowed) {
                             posibleFields.push({
                                 w: pos.w + j,
@@ -32,7 +38,6 @@ class Saper {
                 }
             }
         }
-        console.log(posibleFields);
         return posibleFields
     }
     getFieldNumber(pos) {
@@ -47,47 +52,18 @@ class Saper {
 
     }
 
-    // setListeners() {
-    //     const fieldsDOMList = document.querySelectorAll('.cell')
-    //     fieldsDOMList.forEach(cell => {
-    //         cell.addEventListener("click", (e) => {
-    //             //checking if field is bomb
-    //             console.log(this.isElementBomb(e.target));
-    //             if (this.isElementBomb(e.target)) {
-    //                 this.handleBombClick(e.target)
-    //             } else {
-    //                 this.handleFieldClick(e.target)
-    //             }
-    //         })
-    //         cell.addEventListener("contextmenu", function (e) {
-    //             //flaga!
-    //         })
-    //     })
-    // }
-    // isElementBomb(el) {
-    //     let pos = this.Board.getPosition(el)
-    //     console.log(pos);
-    //     return this.fieldsArray[pos.w][pos.h] == 1
-    //         // let check = this.minesArray.findIndex(mine => {
-    //         //     return mine.w === pos.w && mine.h === pos.h
-    //         // })
-    // }
+    checkWin() {
+        this.fieldsToWin--
+        if (this.fieldsToWin == 0) {
+            setTimeout(() => {
+                alert('win!')
+            }, 0)
+        }
+        // debugger
+        console.log(this.fieldsToWin);
+        clearInterval(this.timeCounting)
+    }
 
-    // handleFieldClick(el){
-    //     const val = this.Board.handleFieldClick(el)
-    //     if(val == 0){
-
-    //     }
-
-    // }
-
-    // handleBombClick(el) {
-    //     this.Board.showAllBombs()
-    //     el.style.backgroundImage = 'url(./img/bomb.png)'
-    //     clearInterval(this.timeCounting)
-    //     this.Board.cover() // disable onclicks
-
-    // }
     // timeCounting
     startTimer() {
         const timeDiv = document.querySelector('#time-div')

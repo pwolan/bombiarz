@@ -52,6 +52,7 @@ input.start-values {
     border: 5px solid black;
     width: fit-content;
     position: relative;
+    user-select: none;
 }
 
 .cell {
@@ -61,7 +62,9 @@ input.start-values {
     background-size: contain;
     cursor: pointer;
 }
-
+.showed{
+    cursor: auto;
+}
 .cover {
     position: absolute;
     width: 100%;

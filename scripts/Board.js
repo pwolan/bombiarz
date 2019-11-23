@@ -1,4 +1,4 @@
-class Board {
+class BoardClass {
     constructor(width = 0, height = 0, minesCount = 0) {
         this.width = width
         this.height = height
@@ -7,6 +7,7 @@ class Board {
         this.fieldsArray
         this.boardDOM
         this.cellsDOM
+        this.fieldsToWin
         this.init()
     }
     init() {
@@ -17,6 +18,7 @@ class Board {
         })
         this.minesArray = minesArray;
         this.fieldsArray = boardArray
+        // this.fieldsToWin = this.width * this.height - this.minesCount
         this.render()
     }
     render() {
@@ -25,6 +27,7 @@ class Board {
             height
         } = this
         this.boardDOM = document.getElementById('board')
+        this.boardDOM.innerHTML = ''
         board.style.gridTemplateColumns = `repeat(${width}, 20px)`
         board.style.gridTemplateRows = `repeat(${height}, 20px)`
         board.style.display = 'grid'
@@ -86,11 +89,15 @@ class Board {
     }
     showField(guess, number) {
         const cell = document.getElementById(`${guess.h}-${guess.w}`)
-        cell.style.backgroundImage = ''
-        cell.classList.add('showed')
-        if (number > 0) {
-            cell.textContent = number
+        if (!cell.classList.contains('showed')) {
+            cell.style.backgroundImage = ''
+            cell.classList.add('showed')
+            if (number > 0) {
+                cell.textContent = number
+            }
+            return  true
         }
+        return false
     }
     showAllBombs() {
         this.minesArray.forEach(mine => {
@@ -106,7 +113,17 @@ class Board {
         el.style.backgroundImage = 'url(./img/bomb.png)'
     }
     rightClick(el) {
-        el.textContent = 'xD'
+        if (el.classList.contains('flag')) {
+            el.style.backgroundImage = 'url(./img/pyt.png)'
+            el.classList.remove('flag')
+            el.classList.add('question')
+        } else if (el.classList.contains('question')) {
+            el.classList.remove('question')
+            el.style.backgroundImage = 'url(./img/klepa.png)'
+        } else {
+            el.style.backgroundImage = 'url(./img/flaga.png)'
+            el.classList.add('flag')
+        }
     }
     cover() {
         const div = document.createElement('div')
