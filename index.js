@@ -1,5 +1,5 @@
 render();
-
+let Saper
 const inputs = document.querySelectorAll(".start-values");
 inputs.forEach(input => {
   input.addEventListener("input", e => {
@@ -10,20 +10,30 @@ inputs.forEach(input => {
 
 const generate = document.querySelector("button");
 generate.addEventListener("click", () => {
+
+
+});
+
+const form = document.getElementById('form')
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
   let canStart = checkAreInputsCorrect()
   if (canStart) {
-    // if (Game) {
-    //   Game.remove()
-    // }
+    if (Saper) {
+      Saper.remove()
+    }
 
     const {
       width,
       height,
       mines
     } = getFormValues()
-    Board = new BoardClass(width, height, mines) // manage board
+    const Board = new BoardClass(width, height, mines) // manage board
     Saper = new SaperClass(Board) // saper game actions
     clearInputs()
+    Board.render()
+
+
     Board.cellsDOM.forEach(cell => {
       cell.addEventListener("click", (e) => {
         let guess = Board.getPosition(e.target.id)
@@ -32,9 +42,12 @@ generate.addEventListener("click", () => {
           Board.showAllBombs()
           Board.showClickedBomb(guess)
           Board.cover()
+          Saper.lost()
           Saper.remove()
-          // alert('looser')
-        } else {
+          // setTimeout(() => {
+          //   alert('nie tym razem!')
+          // }, 0)
+        } else if (!e.target.classList.contains('showed')) {
           let number = Saper.getFieldNumber(guess)
           Board.showField(guess, number)
           Saper.checkWin()
@@ -43,8 +56,8 @@ generate.addEventListener("click", () => {
               let adjFields = Saper.getAdjacentFields(pos)
               adjFields.forEach(field => {
                 let num = Saper.getFieldNumber(field)
-                let x = Board.showField(field, num)
-                if (x) {
+                let isChanged = Board.showField(field, num)
+                if (isChanged) {
                   Saper.checkWin()
                 }
                 if (num == 0) {
@@ -60,16 +73,11 @@ generate.addEventListener("click", () => {
         e.preventDefault()
         if (!e.target.classList.contains('showed')) {
           Board.rightClick(e.target)
+
         }
       })
     })
     console.log(Board);
     console.table(Board.fieldsArray)
   }
-
-});
-
-const form = document.getElementById('form')
-form.addEventListener('submit', (e) => {
-  e.preventDefault();
 })

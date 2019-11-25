@@ -6,10 +6,6 @@ class SaperClass {
         this.fieldsToWin
     }
     init() {
-        //get numbers from inputs
-        // this.Board = new Board()
-        // this.fieldsArray = this.Board.fieldsArray
-        // this.setListeners()
         const {
             Board
         } = this
@@ -58,10 +54,15 @@ class SaperClass {
             setTimeout(() => {
                 alert('win!')
             }, 0)
+            clearInterval(this.timeCounting)
         }
-        // debugger
         console.log(this.fieldsToWin);
-        clearInterval(this.timeCounting)
+    }
+
+    lost() {
+        let msg = document.getElementById('msg')
+        msg.style.color = 'red'
+        msg.textContent = 'Kabooom! Spróbuj jeszcze raz'
     }
 
     // timeCounting
@@ -77,10 +78,5 @@ class SaperClass {
     remove() {
         //stop the timer
         clearInterval(this.timeCounting)
-        //empty board
-        // const board = document.getElementById('board')
-        // while (board.firstChild) {
-        //     board.removeChild(board.firstChild)
-        // }
     }
 }

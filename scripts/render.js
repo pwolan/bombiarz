@@ -26,9 +26,12 @@ const render = () => {
   form.appendChild(generate);
   document.body.appendChild(form)
 
+  const minesLeft = document.createElement('div')
+  minesLeft.id = 'mines-left'
+  document.body.appendChild(minesLeft)
+
   const board = document.createElement('div')
   board.id = 'board'
   document.body.appendChild(board)
 
 };
-

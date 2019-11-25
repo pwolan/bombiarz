@@ -3,11 +3,11 @@ class BoardClass {
         this.width = width
         this.height = height
         this.minesCount = minesCount
+        this.minesLeft = minesCount
         this.minesArray
         this.fieldsArray
         this.boardDOM
         this.cellsDOM
-        this.fieldsToWin
         this.init()
     }
     init() {
@@ -18,10 +18,9 @@ class BoardClass {
         })
         this.minesArray = minesArray;
         this.fieldsArray = boardArray
-        // this.fieldsToWin = this.width * this.height - this.minesCount
-        this.render()
     }
     render() {
+        document.getElementById('mines-left').textContent = 'Miny do odnalezienia: ' + this.minesLeft
         const {
             width,
             height
@@ -41,6 +40,10 @@ class BoardClass {
             }
         }
         this.cellsDOM = document.querySelectorAll('.cell')
+        let msgDiv = document.createElement('div')
+        msgDiv.id = 'msg'
+        msgDiv.classList.add('msg')
+        this.boardDOM.insertAdjacentElement('afterend', msgDiv)
     }
     buildBoard() {
         const {
@@ -82,9 +85,10 @@ class BoardClass {
         return minesArray
     }
     getPosition(id) {
+        let pos = id.split('-')
         return {
-            w: parseInt(id[2]),
-            h: parseInt(id[0])
+            w: parseInt(pos[1]),
+            h: parseInt(pos[0])
         }
     }
     showField(guess, number) {
@@ -95,7 +99,7 @@ class BoardClass {
             if (number > 0) {
                 cell.textContent = number
             }
-            return  true
+            return true
         }
         return false
     }
@@ -117,13 +121,16 @@ class BoardClass {
             el.style.backgroundImage = 'url(./img/pyt.png)'
             el.classList.remove('flag')
             el.classList.add('question')
+            this.minesLeft++
         } else if (el.classList.contains('question')) {
             el.classList.remove('question')
             el.style.backgroundImage = 'url(./img/klepa.png)'
         } else {
             el.style.backgroundImage = 'url(./img/flaga.png)'
             el.classList.add('flag')
+            this.minesLeft--
         }
+        document.getElementById('mines-left').textContent = 'Miny do odnalezienia: ' + this.minesLeft
     }
     cover() {
         const div = document.createElement('div')

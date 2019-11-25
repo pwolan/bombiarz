@@ -62,9 +62,11 @@ input.start-values {
     background-size: contain;
     cursor: pointer;
 }
-.showed{
+
+.showed {
     cursor: auto;
 }
+
 .cover {
     position: absolute;
     width: 100%;
@@ -72,4 +74,14 @@ input.start-values {
     top: 0;
     left: 0;
     z-index: 100;
+}
+
+#mines-left {
+    text-align: center;
+    font-size: 1.5em;
+}
+
+.msg {
+    margin-top: 20px;
+    font-size: 2em;
 }
