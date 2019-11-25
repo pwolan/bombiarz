@@ -85,3 +85,11 @@ input.start-values {
     margin-top: 20px;
     font-size: 2em;
 }
+
+table{
+    margin: 0 auto;
+    margin-top: 50px;
+}
+th{
+    font-size: 1.5em;
+}

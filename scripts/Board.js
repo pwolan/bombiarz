@@ -137,4 +137,7 @@ class BoardClass {
         div.classList.add('cover')
         document.getElementById('board').append(div)
     }
+    remove(){
+        document.getElementById('msg').remove()
+    }
 }

@@ -23,13 +23,31 @@ const checkAreInputsCorrect = () => {
 }
 
 // remove letters from inputs
-let timeOut;
+let timeOut = {
+    w: null,
+    h: null,
+    m: null
+};
 const checkIsTextValid = (e) => {
     let {
         value
     } = e.target;
-    if (timeOut) {
-        clearTimeout(timeOut)
+    switch (e.target.id) {
+        case 'height':
+            if (timeOut.h) {
+                clearTimeout(timeOut.h)
+            }
+            break;
+        case 'width':
+            if (timeOut.w) {
+                clearTimeout(timeOut.w)
+            }
+            break;
+        case 'mines':
+            if (timeOut.m) {
+                clearTimeout(timeOut.m)
+            }
+            break;
     }
     timeOut = setTimeout(() => {
         if (isNaN(value)) {
@@ -40,7 +58,7 @@ const checkIsTextValid = (e) => {
 }
 
 const clearInputs = () => {
-    let inputs = document.querySelectorAll('.start-values') // dodaj klase do inputów
+    let inputs = document.querySelectorAll('.start-values') 
     inputs.forEach(input => {
         input.value = ''
     });

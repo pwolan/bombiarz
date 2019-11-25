@@ -1,5 +1,6 @@
 render();
 let Saper
+let Board
 const inputs = document.querySelectorAll(".start-values");
 inputs.forEach(input => {
   input.addEventListener("input", e => {
@@ -8,12 +9,6 @@ inputs.forEach(input => {
 });
 
 
-const generate = document.querySelector("button");
-generate.addEventListener("click", () => {
-
-
-});
-
 const form = document.getElementById('form')
 form.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -21,6 +16,7 @@ form.addEventListener('submit', (e) => {
   if (canStart) {
     if (Saper) {
       Saper.remove()
+      Board.remove()
     }
 
     const {
@@ -28,7 +24,7 @@ form.addEventListener('submit', (e) => {
       height,
       mines
     } = getFormValues()
-    const Board = new BoardClass(width, height, mines) // manage board
+    Board = new BoardClass(width, height, mines) // manage board
     Saper = new SaperClass(Board) // saper game actions
     clearInputs()
     Board.render()
@@ -44,13 +40,13 @@ form.addEventListener('submit', (e) => {
           Board.cover()
           Saper.lost()
           Saper.remove()
-          // setTimeout(() => {
-          //   alert('nie tym razem!')
-          // }, 0)
         } else if (!e.target.classList.contains('showed')) {
           let number = Saper.getFieldNumber(guess)
           Board.showField(guess, number)
-          Saper.checkWin()
+          if (Saper.checkWin()) {
+            Saper.win()
+            Board.showAllBombs()
+          }
           if (number == 0) {
             const autoshow = (pos) => {
               let adjFields = Saper.getAdjacentFields(pos)
@@ -58,7 +54,10 @@ form.addEventListener('submit', (e) => {
                 let num = Saper.getFieldNumber(field)
                 let isChanged = Board.showField(field, num)
                 if (isChanged) {
-                  Saper.checkWin()
+                  if (Saper.checkWin()) {
+                    Saper.win()
+                    Board.showAllBombs()
+                  }
                 }
                 if (num == 0) {
                   return autoshow(field)
@@ -73,7 +72,6 @@ form.addEventListener('submit', (e) => {
         e.preventDefault()
         if (!e.target.classList.contains('showed')) {
           Board.rightClick(e.target)
-
         }
       })
     })

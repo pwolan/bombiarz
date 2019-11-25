@@ -51,27 +51,36 @@ class SaperClass {
     checkWin() {
         this.fieldsToWin--
         if (this.fieldsToWin == 0) {
-            setTimeout(() => {
-                alert('win!')
-            }, 0)
             clearInterval(this.timeCounting)
+            return true
         }
-        console.log(this.fieldsToWin);
+        return false
     }
-
+    win() {
+        let msg = document.getElementById('msg')
+        msg.style.color = 'green'
+        msg.textContent = 'Bomb has been defused!'
+        let username = prompt('Wygrałeś! Podaj swój nick.')
+        const {
+            height,
+            width
+        } = this.Board
+        // document.cookie = `username=${username};time=${this.timer};mode=${height}-${width};`
+        document.cookie = `${username}=${this.timer}/${height}-${width};`
+    }
     lost() {
         let msg = document.getElementById('msg')
         msg.style.color = 'red'
-        msg.textContent = 'Kabooom! Spróbuj jeszcze raz'
+        msg.textContent = 'Kabooom! Terrorist win!'
     }
 
     // timeCounting
     startTimer() {
         const timeDiv = document.querySelector('#time-div')
-        let timer = 0;
+        this.timer = 0;
         this.timeCounting = setInterval(() => {
-            timer++;
-            timeDiv.textContent = timer + " [s]";
+            this.timer++;
+            timeDiv.textContent = this.timer + " [s]";
         }, 1000);
     }
 
