@@ -1,17 +1,22 @@
-const renderLadder = () => {
-  let data = [{
-      name: 'piter',
-      time: 100
-    },
-    {
-      name: 'mmm',
-      time: 10
-    }
-  ] //data z cookies
+const renderLadder = ({
+  width,
+  height
+}) => {
+
+  if (document.getElementById('table')) {
+    document.getElementById('table').innerHTML = '';
+  }
+
+  let data = getCookies()
+
+
+  data = data.filter(user => (
+    user.mode == `${height}-${width}`
+  ))
 
   const laderBoard = document.createElement('table')
   const th = document.createElement('th')
-  th.textContent = 'Nick - time'
+  th.textContent = `Nick - time - ${height}/${width}`
   const tr = document.createElement('tr')
   tr.appendChild(th)
   laderBoard.appendChild(tr)
@@ -25,8 +30,6 @@ const renderLadder = () => {
     tr.appendChild(td)
     laderBoard.append(tr)
   })
-  console.log(data);
-  console.log(laderBoard);
   document.body.appendChild(laderBoard)
 }
 
@@ -67,7 +70,5 @@ const render = () => {
   const board = document.createElement('div')
   board.id = 'board'
   document.body.appendChild(board)
-
-  renderLadder()
 
 };

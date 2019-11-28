@@ -58,7 +58,7 @@ const checkIsTextValid = (e) => {
 }
 
 const clearInputs = () => {
-    let inputs = document.querySelectorAll('.start-values') 
+    let inputs = document.querySelectorAll('.start-values')
     inputs.forEach(input => {
         input.value = ''
     });
@@ -76,4 +76,16 @@ const getFormValues = () => {
         width,
         mines
     }
+}
+
+const getCookies = () => {
+    let data = document.cookie.split(';')
+
+    return data.map(user => {
+        return {
+            name: user.split('=')[0],
+            time: user.split('=')[0].split('/')[0],
+            mode: user.split('=')[0].split('/')[1]
+        }
+    })
 }

@@ -65,8 +65,22 @@ class SaperClass {
             height,
             width
         } = this.Board
-        // document.cookie = `username=${username};time=${this.timer};mode=${height}-${width};`
-        document.cookie = `${username}=${this.timer}/${height}-${width};`
+        let cookies = getCookies()
+        //if username already exist overwrite this
+        let userSearch = cookies.findIndex(user => (
+            user.mode == `${height}-${width}` && user.name == username
+        ))
+        if (userSearch > -1) {
+            document.cookie = `${username}=${this.timer}/${height}-${width};`
+        } else {
+            // overwriting
+        }
+
+
+        renderLadder({
+            width,
+            height
+        })
     }
     lost() {
         let msg = document.getElementById('msg')
