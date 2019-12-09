@@ -63,19 +63,49 @@ class SaperClass {
         let username = prompt('Wygrałeś! Podaj swój nick.')
         const {
             height,
-            width
+            width,
+            minesCount
         } = this.Board
-        let cookies = getCookies()
-        //if username already exist overwrite this
-        let userSearch = cookies.findIndex(user => (
-            user.mode == `${height}-${width}` && user.name == username
-        ))
-        if (userSearch > -1) {
-            document.cookie = `${username}=${this.timer}/${height}-${width};`
-        } else {
-            // overwriting
-        }
 
+        let cookies = document.cookie
+        console.log(cookies);
+        cookies = cookies.split('; ')
+        let data = cookies.filter(cookie => cookie.split('=')[0] === `${height}|${width}|${minesCount}`)
+        console.log(data);
+        let d = data.map(user => ({
+            username: user.split('#')[0].split(':')[1],
+            time: user.split('#')[1].split(':')[1]
+        }))
+        console.log(d);
+
+
+
+
+        // if (cookies) {
+        // console.log(cookies);
+        //     cookies = JSON.parse(cookies)
+        // }
+        //if username already exist overwrite this
+        // let userSearch = cookies.findIndex(user => (
+        //     user.mode == `${height}-${width}` && user.name == username
+        // ))
+        // if (userSearch > -1) {
+        //     document.cookie = `${username}=${this.timer}/${height}-${width};`
+        // } else {
+        //     // overwriting
+        // }
+
+        // toSend = [{
+        //     username: username,
+        //     time: this.timer
+        // }]
+        let output = `${height}|${width}|${minesCount}=`
+        d.forEach(user => {
+            output += `username:${user.username}#time:${user.time}@`
+        })
+        output += `username:${username}#time:${this.timer}`
+        document.cookie = output
+        console.log(output);
 
         renderLadder({
             width,

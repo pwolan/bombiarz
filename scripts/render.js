@@ -14,7 +14,8 @@ const renderLadder = ({
     user.mode == `${height}-${width}`
   ))
 
-  const laderBoard = document.createElement('table')
+  const laderBoard = document.getElementById('laderBoard')
+  laderBoard.innerHTML = ''
   const th = document.createElement('th')
   th.textContent = `Nick - time - ${height}/${width}`
   const tr = document.createElement('tr')
@@ -70,5 +71,9 @@ const render = () => {
   const board = document.createElement('div')
   board.id = 'board'
   document.body.appendChild(board)
+
+  const laderBoard = document.createElement('table')
+  laderBoard.id = 'laderBoard'
+  document.body.appendChild(laderBoard)
 
 };
