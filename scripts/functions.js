@@ -89,3 +89,7 @@ const getCookies = () => {
         }
     })
 }
+
+const parseCookies = (height,width,minesCount)=>{
+    
+}
