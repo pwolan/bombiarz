@@ -19,9 +19,9 @@ class SaperClass {
     for (let i = -1; i < 2; i++) {
       for (let j = -1; j < 2; j++) {
         if (pos.h + i >= 0 && pos.h + i < this.fieldsArray.length) {
-          //hgth
+          //heigth
           if (pos.w + j >= 0 && pos.w + j < this.fieldsArray[0].length) {
-            //wdth
+            //width
             const el = document.getElementById(`${pos.h + i}-${pos.w + j}`);
             let isShowed =
               el.classList.contains("showed") || (j == 0 && i == 0);
@@ -60,53 +60,49 @@ class SaperClass {
     let msg = document.getElementById("msg");
     msg.style.color = "green";
     msg.textContent = "Bomb has been defused!";
-    let username = prompt("Wygrałeś! Podaj swój nick.");
+    let u;
+
+    u = prompt("Wygrałeś! Podaj swój nick.");
+    while (
+      u.search("@") > -1 ||
+      u.search(";") > -1 ||
+      u.search("#") > -1 ||
+      u.search("%") > -1 ||
+      u.search(":") > -1
+    ) {
+      u = prompt("Nie można podawać znaków specjalnych!");
+    }
     const { height, width, minesCount } = this.Board;
-
-    let cookies = document.cookie;
-
-    cookies = cookies.split("; ");
-    let data = cookies.filter(
-      cookie => cookie.split("=")[0] === `${height}|${width}|${minesCount}`
-    );
-    // let data = parseCookies(height,width,minesCount)
+    let username = u;
+    //ladderBoard actions
+    let data = parseCookies(height, width, minesCount);
     if (data.length > 0) {
-      console.log(data);
-      data = data[0].split("=")[1];
-      data = data.trim().split("@");
-      data.pop();
-      console.log(data);
-      let d = data.map(user => ({
-        username: user.split("#")[0].split(":")[1],
-        time: user.split("#")[1].split(":")[1]
-      }));
-      console.log(d);
       let isUnique = true;
-      d.forEach(user => {
+      data.forEach(user => {
         if (user.username === username && user.time > this.timer) {
           user.time = this.timer;
           isUnique = false;
         }
       });
       if (isUnique) {
-        d.push({
+        data.push({
           username: username,
           time: this.timer
         });
       }
 
       let output = `${height}|${width}|${minesCount}=`;
-      d.forEach(user => {
+      data.forEach(user => {
         output += `username:${user.username}#time:${user.time}@`;
       });
-      document.cookie = output;
+      document.cookie = encodeURIComponent(output);
     } else {
       //when cookie of height|width|mines is not defined yet
       let output = `${height}|${width}|${minesCount}=username:${username}#time:${this.timer}@`;
-      document.cookie = output;
+      document.cookie = encodeURIComponent(output);
     }
 
-    renderLadder({ width, height });
+    renderLadder({ width, height, minesCount });
   }
   lost() {
     let msg = document.getElementById("msg");
