@@ -92,7 +92,7 @@ const parseCookies = (height, width, minesCount) => {
   let data = cookies.filter(
     cookie => cookie.split("=")[0] === `${height}|${width}|${minesCount}`
   );
-"xd".c
+
   if (data.length > 0) {
     console.log(data);
     data = data[0].split("=")[1];

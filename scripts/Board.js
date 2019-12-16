@@ -25,8 +25,8 @@ class BoardClass {
     const { width, height } = this;
     this.boardDOM = document.getElementById("board");
     this.boardDOM.innerHTML = "";
-    board.style.gridTemplateColumns = `repeat(${width}, 20px)`;
-    board.style.gridTemplateRows = `repeat(${height}, 20px)`;
+    board.style.gridTemplateColumns = `repeat(${width}, 30px)`;
+    board.style.gridTemplateRows = `repeat(${height}, 30px)`;
     board.style.display = "grid";
     for (let i = 0; i < height; i++) {
       for (let ii = 0; ii < width; ii++) {

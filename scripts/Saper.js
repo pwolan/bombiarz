@@ -4,6 +4,7 @@ class SaperClass {
     this.Board = Board;
     this.init();
     this.fieldsToWin;
+    this.firstShot = true;
   }
   init() {
     const { Board } = this;
@@ -12,7 +13,15 @@ class SaperClass {
     console.log(this);
   }
   checkIsBomb(pos) {
-    return this.fieldsArray[pos.h][pos.w] == 1;
+    // pierwszy
+    if (this.firstShot) {
+      if (this.fieldsArray[pos.h][pos.w] == 1) {
+        // this.fieldsArray;
+      }
+      this.firstShot = false;
+    } else {
+      return this.fieldsArray[pos.h][pos.w] == 1;
+    }
   }
   getAdjacentFields(pos) {
     let posibleFields = [];
@@ -95,6 +104,9 @@ class SaperClass {
       data.forEach(user => {
         output += `username:${user.username}#time:${user.time}@`;
       });
+
+      let date = new Date();
+      output += `;expires=${date.getTime() + 2 * 365 * 24 * 60 * 60 * 1000}`;
       document.cookie = encodeURIComponent(output);
     } else {
       //when cookie of height|width|mines is not defined yet

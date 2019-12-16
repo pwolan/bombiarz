@@ -57,8 +57,8 @@ input.start-values {
 }
 
 .cell {
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   background-color: #c0c0c0;
   background-size: contain;
   cursor: pointer;
